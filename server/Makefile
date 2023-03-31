@@ -25,28 +25,20 @@ install: ## Installations
 
 .PHONY: run-backend
 run-backend: ## Run backend
-	poetry run uvicorn run:app
+	uvicorn run:app
 
 .PHONY: migrate-init
 migrate-init: ## Initial migrations
-	poetry run alembic init migrations
+	alembic init migrations
 
 .PHONY: migrate-create
 migrate-create: ## Create a new revision file
-	poetry run alembic revision --autogenerate -m "nevers"
+	alembic revision --autogenerate -m "nevers"
 
 .PHONY: migrate-up
 migrate-up: ## Upgrade to a later version
-	poetry run alembic upgrade head
+	alembic upgrade head
 
 .PHONY: migrate-down
 migrate-down: ## Revert to a previous version
-	poetry run alembic downgrade $(revision)
-
-.PHONY: compose-build
-compose-build: ## Build or rebuild services
-	docker-compose -f docker/docker-compose.yml --env-file docker/$(ENV_FILE) build
-
-.PHONY: compose-up
-compose-up: ## Create and start containers
-	docker-compose -f docker/docker-compose.yml --env-file docker/$(ENV_FILE) up -d
+	alembic downgrade $(revision)
