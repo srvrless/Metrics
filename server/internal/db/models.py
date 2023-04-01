@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, Float, Integer, String, DateTime, func
+from sqlalchemy import Boolean, Column, Float, Integer, String, DateTime, func, ForeignKey
 from internal.utils.base import Base
 
 
@@ -18,17 +18,16 @@ class Purchases(Base):
 class Participants(Base):
     __tablename__ = 'participants'
     id = Column(Integer, primary_key=True)
-    supplier_inn = Column(Integer, nullable=False, unique=True)
+    supplier_inn = Column(Integer, ForeignKey('companies.supplier_inn'), nullable=False)
     is_winner = Column(Boolean, default=False)
 
 
 class Contracts(Base):
     __tablename__ = 'contracts'
     id = Column(Integer, primary_key=True)
-    contract_reg_number = Column(Integer, nullable=False)
+    contract_reg_number = Column(String, nullable=False)
     price = Column(Float, nullable=False)
     contract_conclusion_date = Column(DateTime, nullable=False)
-
 
 class Companies(Base):
     __tablename__ = 'companies'
