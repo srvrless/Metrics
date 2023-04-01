@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, Float, Integer, String, DateTime, func, ForeignKey,BigInteger
+from sqlalchemy import Boolean, Column, Float, Integer, String, DateTime, func, ForeignKey, BigInteger
 from sqlalchemy.dialects.postgresql import TIMESTAMP
 
 from internal.utils.base import Base
@@ -43,3 +43,10 @@ class Companies(Base):
     okved = Column(String, nullable=False, unique=True)
     status = Column(Boolean, default=True)
     count_managers = Column(BigInteger, nullable=False)
+
+
+class Capitalization(Base):
+    __tablename__ = 'capitalizations'
+    id = Column(Integer, primary_key=True)
+    total_purchase = Column(Integer, nullable=False)
+    company_inn = Column(Integer, nullable=False)
