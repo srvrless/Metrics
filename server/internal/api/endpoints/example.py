@@ -13,6 +13,7 @@ async def read_root() -> dict:
 
 
 @router.get("/companies", tags=["companies"])
-def test(session: AsyncSession = Depends(get_session)):
+async def test(session: AsyncSession = Depends(get_session)):
     put_companies(session)
+    await session.commit()
     return 'ok'

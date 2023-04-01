@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, Float, Integer, String, DateTime, func, ForeignKey
+from sqlalchemy import Boolean, Column, Float, Integer, String, DateTime, func, ForeignKey,BigInteger
 from internal.utils.base import Base
 
 
@@ -30,12 +30,13 @@ class Contracts(Base):
     contract_conclusion_date = Column(DateTime, nullable=False)
     contract_id = Column(String, nullable=False)
 
+
 class Companies(Base):
     __tablename__ = 'companies'
-    id = Column(Integer, primary_key=True)
-    name = Column(String, nullable=False, unique=True)
-    supplier_inn = Column(Integer, nullable=False, unique=True)
-    supplier_kpp = Column(String, nullable=False, unique=True)
-    okved = Column(String, nullable=False, unique=True)
+    id = Column(BigInteger, primary_key=True)
+    name = Column(String, nullable=False)
+    supplier_inn = Column(BigInteger, nullable=False, unique=True)
+    supplier_kpp = Column(String, nullable=False)
+    okved = Column(String, nullable=False)
     status = Column(Boolean, default=True)
-    count_managers = Column(Integer, nullable=False)
+    count_managers = Column(BigInteger, nullable=False)
