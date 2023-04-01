@@ -79,13 +79,34 @@ async def get_prices_contacts(session: AsyncSession = Depends(get_session)):
 
     for price in prices:
         key = price[1].split(' ')[0]
+        region = price[2]
+        if region not in result:
+            result[region] = {}
+        if key not in result[region]:
+            result[region][key] = 0
 
-        if key not in result:
-            result[key] = 0
-        result[key] += int(price[0])
-        print(price[2])
+        result[region][key] += int(price[0])
 
     f = open("tests_prices.json","w",encoding="utf-8")
     json.dump(result,f,indent=3)
     f.close()
+    return result
+
+@router.get("/get_prices_summaryRegion")
+async def get_prices_summaryRegion(session: AsyncSession = Depends(get_session)):
+    stmt = select(Purchases.price, Purchases.publish_date, Purchases.delivery_region)
+    result = await session.execute(stmt)
+
+    prices = [(row[0], str(row[1]), row[2]) for row in result]
+    prices = sorted(prices, key=lambda x: x[1])
+
+    result = {}
+
+    for price in prices:
+        region = price[2]
+        if region not in result:
+            result[region] = 0
+
+        result[region] += int(price[0])
+
     return result
