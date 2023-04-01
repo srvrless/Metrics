@@ -5,7 +5,7 @@ from fastapi import FastAPI, Depends, APIRouter, File, UploadFile
 from sqlalchemy import create_engine, select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 from internal.db.database import get_session
-from internal.db.models import Purchases, Contracts
+from internal.db.models import Purchases, Contracts, Companies
 from fastapi.responses import StreamingResponse
 
 from internal.crud.write_data_csv import read_csv, write_data,insert_data
@@ -110,3 +110,18 @@ async def get_prices_summaryRegion(session: AsyncSession = Depends(get_session))
         result[region] += int(price[0])
 
     return result
+
+
+@router.get("/serch_companies_name/{compname}")
+async def serch_companies_name(compname, session: AsyncSession = Depends(get_session)):
+    stmt = select(Companies.name,Companies.supplier_inn)
+    result = await session.execute(stmt)
+
+    compname = compname.lower()
+
+    otvet = []
+
+    for i in result:
+        if compname in str(i[0]).lower():
+            otvet += [(i[0],int(i[1]))]
+    return otvet
