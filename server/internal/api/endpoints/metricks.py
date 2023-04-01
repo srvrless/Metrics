@@ -40,28 +40,11 @@ async def get_purchases_graph(session: AsyncSession = Depends(get_session)):
     return df.plot(kind="bar").get_figure()
 
 
-@router.get("/contracts")
-async def get_contracts_graph(session: AsyncSession = Depends(get_session)):
-    stmt = select(
-        func.date_trunc(
-            'day', Contracts.contract_conclusion_date).label('date'),
-        func.count().label('count')
-    ).select_from(Contracts).group_by('date')
-    rows = await session.execute(stmt)
-    result = rows.fetchall()
+# @router.get("/contracts")
+# async def get_contracts_graph(session: AsyncSession = Depends(get_session)):
+#     try:
+#         return await get_contracts(session)
 
     # преобразование результата запроса в объект DataFrame
-    df = pd.DataFrame(result, columns=['date', 'count'])
+    # df = pd.DataFrame(result, columns=['date', 'count'])
 
-    # построение графика с помощью библиотеки Matplotlib
-    plt.plot(df['date'], df['count'])
-    plt.title('purchases_crud')
-    plt.xlabel('Date')
-    plt.ylabel('Count')
-    plt.show()
-
-    # преобразование графика в формат PNG и его отправка в ответе API
-    buf = io.BytesIO()
-    plt.savefig(buf, format='png')
-    buf.seek(0)
-    return StreamingResponse(buf, media_type='image/png')

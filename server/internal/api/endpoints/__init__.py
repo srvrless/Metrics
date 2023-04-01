@@ -1,6 +1,7 @@
 # from internal.app.users import auth_backend, fastapi_users
 # from internal.schemas.user import UserCreate, UserRead, UserUpdate
-from . import example, metricks,companies
+
+from . import example, metricks,contracts,purchases
 from fastapi import APIRouter
 
 
@@ -16,9 +17,15 @@ router.include_router(
     tags=["metricks"],
 )
 router.include_router(
-    companies.router,
+    contracts.router,
     prefix="/companies",
     tags=["companies"],
+)
+
+router.include_router(
+    purchases.router,
+    prefix="/purchases",
+    tags=["purchases"],
 )
 # router.include_router(
 #     user.router,
