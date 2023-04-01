@@ -28,6 +28,7 @@ class Contracts(Base):
     contract_reg_number = Column(String, nullable=False)
     price = Column(Float, nullable=False)
     contract_conclusion_date = Column(DateTime, nullable=False)
+    contract_id = Column(String, nullable=False)
 
 class Companies(Base):
     __tablename__ = 'companies'
