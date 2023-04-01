@@ -8,10 +8,15 @@ from internal.db.database import get_session
 from internal.db.models import Purchases, Contracts
 from fastapi.responses import StreamingResponse
 
-from internal.crud.write_data_csv import read_csv, write_data
+from internal.crud.write_data_csv import read_csv, write_data,insert_data
+
 
 router = APIRouter()
 
+@router.post("/insert-csv-data")
+async def insert_csv_data(file: UploadFile=File(...)):
+    await insert_data(file)
+    return {"message": "Data inserted successfully"}
 
 @router.post('/upload-csv')
 async def upload_csv(file: UploadFile = File(...), session: AsyncSession = Depends(get_session)):
@@ -45,17 +50,7 @@ async def get_contracts_graph(session: AsyncSession = Depends(get_session)):
     rows = await session.execute(stmt)
     result = rows.fetchall()
 
-#     df = pd.DataFrame(rows, columns=["date", "count"])
-#     df.set_index("date", inplace=True)
-
-#     fig, ax = plt.subplots()
-#     ax.bar(df.index, df["count"])
-#     ax.set_xlabel("Date")
-#     ax.set_ylabel("Count")
-#     ax.set_title("Contracts")
-
-#     return fig
-    # # преобразование результата запроса в объект DataFrame
+    # преобразование результата запроса в объект DataFrame
     df = pd.DataFrame(result, columns=['date', 'count'])
 
     # построение графика с помощью библиотеки Matplotlib
