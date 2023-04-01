@@ -38,7 +38,7 @@ def put_participants(session: AsyncSession):
 
     for article in rows:
         session.add(Participants(
-            part_id=int(article['id'].split('_')[-1]),
+            part_id=article['id'],
             supplier_inn=article['supplier_inn'],
             is_winner = article['is_winner'] == 'Да'
         ))
@@ -50,6 +50,7 @@ def put_purchases(session: AsyncSession):
 
     for article in rows:
         session.add(Purchases(
+            purch_id=article['id'],
         purchase_name = article['purchase_name'],
         lot_name = article['lot_name'],
         price = float(article['price']),
@@ -72,4 +73,3 @@ def put_contracts(session: AsyncSession):
         contract_conclusion_date=datetime.strptime(article['contract_conclusion_date'], '%Y-%m-%d'),
         contract_id=article['id'],
         ))
-

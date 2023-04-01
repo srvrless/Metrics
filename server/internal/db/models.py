@@ -7,6 +7,7 @@ from internal.utils.base import Base
 class Purchases(Base):
     __tablename__ = 'purchases'
     id = Column(Integer, primary_key=True)
+    purch_id = Column(String)
     purchase_name = Column(String, nullable=False, unique=False)
     lot_name = Column(String, nullable=False, unique=False)
     price = Column(Float, nullable=False, unique=False)
@@ -22,7 +23,7 @@ class Participants(Base):
     id = Column(Integer, primary_key=True)
     supplier_inn = Column(String, nullable=False)
     is_winner = Column(Boolean, default=False)
-    part_id = Column(Integer)
+    part_id = Column(String)
 
 
 class Contracts(Base):
