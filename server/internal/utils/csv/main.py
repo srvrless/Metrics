@@ -10,10 +10,10 @@ SPLIT_FUNCTION: Callable[[list], list] = lambda x: x[:ARTICLES_COUNT]
 
 
 def put_companies(session: AsyncSession):
-    with open('./internal/utils/csv/files/companies.csv', newline='\n', encoding='utf-8') as f:
+    with open('./internal/utils/csv/contracts.csv', newline='\n', encoding='utf-8') as f:
         lines = list(f)
     rows = DictReader(lines, delimiter=';')
 
     for article in rows:
         session.add(Companies(**article))
-
+    session.commit()
