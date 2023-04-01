@@ -10,7 +10,7 @@ from fastapi.responses import StreamingResponse
 
 from internal.crud.write_data_csv import read_csv, write_data,insert_data
 
-
+import json
 router = APIRouter()
 
 @router.post("/insert-csv-data")
@@ -69,8 +69,23 @@ async def get_contracts_graph(session: AsyncSession = Depends(get_session)):
 
 @router.get("/get_prices_contracts")
 async def get_prices_contacts(session: AsyncSession = Depends(get_session)):
-    stmt = select(Contracts.price)
+    stmt = select(Purchases.price, Purchases.publish_date, Purchases.delivery_region)
     result = await session.execute(stmt)
 
-    prices = [row[0] for row in result]
-    return prices
+    prices = [(row[0],str(row[1]),row[2]) for row in result]
+    prices = sorted(prices, key=lambda x: x[1])
+
+    result = {}
+
+    for price in prices:
+        key = price[1].split(' ')[0]
+
+        if key not in result:
+            result[key] = 0
+        result[key] += int(price[0])
+        print(price[2])
+
+    f = open("tests_prices.json","w",encoding="utf-8")
+    json.dump(result,f,indent=3)
+    f.close()
+    return result
