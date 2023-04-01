@@ -70,3 +70,12 @@ async def get_contracts_graph(session: AsyncSession = Depends(get_session)):
     plt.savefig(buf, format='png')
     buf.seek(0)
     return StreamingResponse(buf, media_type='image/png')
+
+
+@router.get("/get_prices_contracts")
+async def get_prices_contacts(session: AsyncSession = Depends(get_session)):
+    stmt = select(Contracts.price)
+    result = await session.execute(stmt)
+
+    prices = [row[0] for row in result]
+    return prices
