@@ -10,7 +10,7 @@ from fastapi.responses import StreamingResponse
 
 from internal.crud.write_data_csv import read_csv, write_data,insert_data
 
-
+import json
 router = APIRouter()
 
 @router.post("/insert-csv-data")
