@@ -52,7 +52,6 @@ server/.env
 server/.env
 .venv
 venv/
-alembic.ini
 # Spyder project settings
 .spyderproject
 .spyproject
