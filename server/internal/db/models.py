@@ -21,7 +21,7 @@ class Purchases(Base):
 class Participants(Base):
     __tablename__ = 'participants'
     id = Column(Integer, primary_key=True)
-    supplier_inn = Column(String, nullable=False)
+    supplier_inn = Column(Integer, nullable=False)
     is_winner = Column(Boolean, default=False)
     part_id = Column(String)
 
@@ -38,7 +38,7 @@ class Companies(Base):
     __tablename__ = 'companies'
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False, unique=True)
-    supplier_inn = Column(Integer, nullable=False, unique=True)
+    supplier_inn = Column(Integer, nullable=False, unique=False)
     supplier_kpp = Column(String, nullable=False, unique=True)
     okved = Column(String, nullable=False, unique=True)
     status = Column(Boolean, default=True)

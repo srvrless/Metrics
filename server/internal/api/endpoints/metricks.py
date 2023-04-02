@@ -18,12 +18,6 @@ async def insert_csv_data(file: UploadFile=File(...)):
     await insert_data(file)
     return {"message": "Data inserted successfully"}
 
-@router.post('/upload-csv')
-async def upload_csv(file: UploadFile = File(...), session: AsyncSession = Depends(get_session)):
-    df = await read_csv(file)
-    await write_data(df,session)
-    return {'status': 'ok'}
-
 
 @router.get("/purchases")
 async def get_purchases_graph(session: AsyncSession = Depends(get_session)):
